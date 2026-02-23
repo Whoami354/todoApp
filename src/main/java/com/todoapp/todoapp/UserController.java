@@ -3,9 +3,7 @@ package com.todoapp.todoapp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -19,5 +17,19 @@ public class UserController {
         var savedUser = userRepository.save(newUser);
 
         return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user")
+    private ResponseEntity<User> register(@RequestParam(value = "id") int id)
+    {
+        var user = userRepository.findById(id);
+
+        if(user.isPresent())
+        {
+            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+
+        }
+
+        return new ResponseEntity("No user found with id" + id, HttpStatus.NOT_FOUND);
     }
 }
