@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 public class UserController {
 
@@ -27,9 +31,17 @@ public class UserController {
         if(user.isPresent())
         {
             return new ResponseEntity<User>(user.get(), HttpStatus.OK);
-
         }
 
         return new ResponseEntity("No user found with id" + id, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/validate")
+    private boolean validate(@RequestParam(value = "email") String email,
+                             @RequestParam(value = "password") String password)
+    {
+        var validUser= userRepository.findByEmailAndPassword(email, password);
+
+        return validUser.isPresent();
     }
 }
