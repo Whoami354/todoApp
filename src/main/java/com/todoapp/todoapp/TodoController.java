@@ -37,7 +37,7 @@ public class TodoController {
 
         if(userBySecret.isPresent())
         {
-            Iterable<Todo> allTodosInDb = todoRepository.findAll();
+            Iterable<Todo> allTodosInDb = todoRepository.findByUserId(userBySecret.get().getId());
             return new ResponseEntity<Iterable<Todo>>(allTodosInDb, HttpStatus.OK);
         }
 
