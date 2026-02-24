@@ -53,7 +53,7 @@ public class TodoController {
     }
 
     @DeleteMapping("/todo")
-    public ResponseEntity delet(@RequestParam(value = "id") int id)
+    public ResponseEntity delete(@RequestParam(value = "id") int id)
     {
         Optional<Todo> todoInDb = todoRepository.findById(id);
         if(todoInDb.isPresent())
